@@ -13,7 +13,8 @@ docker-compose up -d
 ### Teste
 
 ```sh
-docker-compose exec app go test ./pkg/devtome
+docker-compose exec app go test ./...
+#docker-compose exec app go test ./pkg/devtome
 #docker-compose exec app go test ./pkg/devtome/file_test.go
 #docker-compose exec app go test ./pkg/devtome -run "regexOfTest$"
 ```
@@ -22,6 +23,7 @@ docker-compose exec app go test ./pkg/devtome
 
 ### Desenvolvimento
 
+- https://docs.docker.com/language/golang/run-tests/
 - https://firehydrant.io/blog/develop-a-go-app-with-docker-compose/
 - https://golang.cafe/blog/golang-httptest-example.html
 - https://dev.to/eminetto/testing-apis-in-golang-using-apitest-1860
