@@ -11,33 +11,36 @@ import (
 	"github.com/nenitf/devtome/pkg/devtome"
 )
 
-func TestGetAll(t *testing.T) {
+func TestAcessoDaAPI(t *testing.T) {
 	is := is.New(t)
-	mux := http.NewServeMux()
 
-	p := devtome.Article{
-		Id:    1,
-		Title: "AAQ",
-	}
+    setupServer := func() (mux *http.ServeMux, svr *httptest.Server) {
+        mux = http.NewServeMux()
+        svr = httptest.NewServer(mux)
+        return
+    }
 
-	mux.HandleFunc("/api/articles/me/all", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(p)
-	})
-	svr := httptest.NewServer(mux)
-	w := httptest.NewRecorder()
-	defer svr.Close()
+	t.Run("Retorna artigos conforme a API", func(t *testing.T) {
+        mux, svr := setupServer()
+        defer svr.Close()
+        p := []devtome.Article{
+            devtome.Article{
+                Id:    1,
+                Title: "Exemplo De Post",
+            },
+        }
+        expected, _ := json.Marshal(p)
 
-	t.Run("Deve retornar o resultado correto", func(t *testing.T) {
-		expected, err := json.Marshal(p)
-		is.NoErr(err)
+        mux.HandleFunc("/api/articles/me/all", func(w http.ResponseWriter, r *http.Request) {
+            w.Header().Set("Content-Type", "application/json")
+            json.NewEncoder(w).Encode(p)
+        })
 
-		c := devtome.NewClient(svr.URL, "AAA")
-		res, err := c.GetAll()
-		is.NoErr(err)
-		is.Equal(w.Code, http.StatusOK)
-		is.Equal(strings.TrimSpace(res), string(expected))
-	})
+        c := devtome.NewClient(svr.URL, "token-desnecessário")
+        res, err := c.GetAll()
+        is.NoErr(err)
+        is.Equal(strings.TrimSpace(res), string(expected))
+    })
 }
 
 func TestFilePersist(t *testing.T) {
