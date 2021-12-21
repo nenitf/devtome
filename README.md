@@ -2,6 +2,15 @@
 
 [![emojicom](https://img.shields.io/badge/emojicom-%F0%9F%90%9B%20%F0%9F%86%95%20%F0%9F%92%AF%20%F0%9F%91%AE%20%F0%9F%86%98%20%F0%9F%92%A4-%23fff)](http://neni.dev/emojicom) [![CI](https://github.com/nenitf/devtome/actions/workflows/ci.yml/badge.svg)](https://github.com/nenitf/devtome/actions/workflows/ci.yml)
 
+Projeto para manter backups do [dev.to](https://dev.to/).
+
+## Utilização
+
+1. Crie uma [API Key](https://dev.to/settings/account)
+2. Baixe o [executável](https://github.com/nenitf/devtome/releases)
+3. Crie/edite o arquivo `config.txt` com referência no arquivo `config.example.txt`
+4. Execute o binário
+
 ## Desenvolvimento
 
 ### Ambiente
@@ -28,7 +37,7 @@ docker-compose exec app go test ./...
 #docker-compose exec app go test ./pkg/devtome -run "regexOfTest$"
 ```
 
-### Lint
+### Linting
 
 ```sh
 docker-compose exec app go fmt ./...

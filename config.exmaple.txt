@@ -1,0 +1,2 @@
+DEVTOME_TOKEN=SuaKeyFicaAqui
+DEVTOME_PATH=backup
