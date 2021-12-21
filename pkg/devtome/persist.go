@@ -4,6 +4,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"path/filepath"
 )
 
 type BackupFile struct {
@@ -12,15 +13,8 @@ type BackupFile struct {
 
 func ArticlesPersistence(path string, articles []Article) (err error) {
 	for _, a := range articles {
-		var sb strings.Builder
-		sb.WriteString(path)
-		sb.WriteString("/")
-		sb.WriteString(translateTitle2Filename(a.Title))
-		sb.WriteString(".md")
-		f, err := os.OpenFile(sb.String(), os.O_CREATE, 0644)
-		if err != nil {
-			return err
-		}
+        filename := translateTitle2Filename(a.Title) + ".md"
+		f, err := os.Create(filepath.Join(path, filename))
 		if err != nil {
 			return err
 		}
