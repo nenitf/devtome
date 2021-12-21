@@ -47,11 +47,28 @@ func (c Client) GetAll() ([]Article, error) {
 		return []Article{}, errors.Wrap(err, "unable to read response data")
 	}
 
-	var articles []Article
-	err = json.Unmarshal(out, &articles)
+	var articlesDevTo []devto.Article
+	err = json.Unmarshal(out, &articlesDevTo)
 	if err != nil {
 		return []Article{}, errors.Wrap(err, "unable to read response data")
 	}
 
+	var articles []Article
+
+	for _, a := range articlesDevTo {
+		articles = append(articles, mapAPI2Article(a))
+	}
+
 	return articles, nil
+}
+
+func mapAPI2Article(a1 devto.Article) (a2 Article) {
+	a2 = Article{
+		Id:          a1.Id,
+		Title:       a1.Title,
+		Description: a1.Description,
+		Content:     a1.BodyMarkdown,
+	}
+
+	return
 }
