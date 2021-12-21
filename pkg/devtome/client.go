@@ -1,6 +1,7 @@
 package devtome
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 
@@ -15,7 +16,7 @@ import (
 type Article struct {
 	Id          int    `json:"id"`
 	Title       string `json:"title"`
-	Description string `json:"Description"`
+	Description string `json:"description"`
 }
 
 type Client struct {
@@ -27,16 +28,22 @@ func NewClient(url string, token string) Client {
 	return Client{url, token}
 }
 
-func (c Client) GetAll() (string, error) {
+func (c Client) GetAll() ([]Article, error) {
 	res, err := http.Get(c.url + "/api/articles/me/all")
 	if err != nil {
-		return "", errors.Wrap(err, "unable to complete Get request")
+		return []Article{}, errors.Wrap(err, "unable to complete Get request")
 	}
 	defer res.Body.Close()
 	out, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return "", errors.Wrap(err, "unable to read response data")
+		return []Article{}, errors.Wrap(err, "unable to read response data")
 	}
 
-	return string(out), nil
+	var articles []Article
+	err = json.Unmarshal(out, &articles)
+	if err != nil {
+		return []Article{}, errors.Wrap(err, "unable to read response data")
+	}
+
+	return articles, nil
 }

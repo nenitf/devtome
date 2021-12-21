@@ -6,10 +6,10 @@ import (
 	"net/http/httptest"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"github.com/matryer/is"
+	"github.com/nenitf/devtome/pkg/devto"
 	"github.com/nenitf/devtome/pkg/devtome"
 )
 
@@ -25,13 +25,12 @@ func TestAcessoDaAPI(t *testing.T) {
 	t.Run("Retorna artigos conforme a API", func(t *testing.T) {
 		mux, svr := setupServer()
 		defer svr.Close()
-		p := []devtome.Article{
-			devtome.Article{
+		p := []devto.Article{
+			devto.Article{
 				Id:    1,
 				Title: "Exemplo De Post",
 			},
 		}
-		expected, _ := json.Marshal(p)
 
 		mux.HandleFunc("/api/articles/me/all", func(w http.ResponseWriter, r *http.Request) {
 			w.Header().Set("Content-Type", "application/json")
@@ -39,9 +38,10 @@ func TestAcessoDaAPI(t *testing.T) {
 		})
 
 		c := devtome.NewClient(svr.URL, "token-desnecessário")
-		res, err := c.GetAll()
+		art, err := c.GetAll()
+        arts, _ := json.Marshal(art)
 		is.NoErr(err)
-		is.Equal(strings.TrimSpace(res), string(expected))
+		is.Equal(string(`[{"id":1,"title":"Exemplo De Post","description":""}]`), string(arts))
 	})
 }
 
