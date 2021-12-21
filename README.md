@@ -6,6 +6,15 @@
 
 ### Ambiente
 
+#### Primeira inicialização
+
+```sh
+docker-compose up -d
+docker-compose exec app go mod tidy
+```
+
+#### Demais inicializações
+
 ```sh
 docker-compose up -d
 ```
