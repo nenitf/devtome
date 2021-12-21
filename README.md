@@ -2,7 +2,7 @@
 
 [![emojicom](https://img.shields.io/badge/emojicom-%F0%9F%90%9B%20%F0%9F%86%95%20%F0%9F%92%AF%20%F0%9F%91%AE%20%F0%9F%86%98%20%F0%9F%92%A4-%23fff)](http://neni.dev/emojicom) [![CI](https://github.com/nenitf/devtome/actions/workflows/ci.yml/badge.svg)](https://github.com/nenitf/devtome/actions/workflows/ci.yml)
 
-Projeto para manter backups do [dev.to](https://dev.to/).
+Projeto para manter backups dos próprios artigos publicados no [dev.to](https://dev.to/).
 
 ## Utilização
 
