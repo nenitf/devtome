@@ -1,6 +1,8 @@
 package devtome_test
 
 import (
+	"os"
+    "path/filepath"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -43,18 +45,30 @@ func TestAcessoDaAPI(t *testing.T) {
     })
 }
 
-func TestFilePersist(t *testing.T) {
-	tmpdir := t.TempDir()
+func TestPersistenciaDosArtigosEmArquivos(t *testing.T) {
+	is := is.New(t)
 
-	p := []devtome.Article{
-		devtome.Article{
-			Id:    1,
-			Title: "Exemplo De Post",
-		},
-	}
+    t.Run("Persiste multiplos arquivos", func(t *testing.T) {
+        tmpdir := t.TempDir()
 
-	// log.Fatal(tmpdir)
-	devtome.FilePersist(tmpdir, p)
+        p := []devtome.Article{
+            devtome.Article{
+                Id:    1,
+                Title: "Exemplo De Post",
+            },
+            devtome.Article{
+                Id:    1,
+                Title: "Mais um Exemplo De Post",
+            },
+        }
 
-	// tmpdir will be cleaned up
+        err := devtome.ArticlesPersistence(tmpdir, p)
+        is.NoErr(err)
+
+        _, err = os.Stat(filepath.Join(tmpdir, "exemplo_de_post.md"))
+        is.NoErr(err)
+
+        _, err = os.Stat(filepath.Join(tmpdir, "mais_um_exemplo_de_post.md"))
+        is.NoErr(err)
+    })
 }
