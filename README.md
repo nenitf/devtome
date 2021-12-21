@@ -19,10 +19,17 @@ docker-compose exec app go test ./...
 #docker-compose exec app go test ./pkg/devtome -run "regexOfTest$"
 ```
 
+### Lint
+
+```sh
+docker-compose exec app go fmt ./...
+```
+
 ## Créditos
 
 ### Desenvolvimento
 
+- https://developers.forem.com/api/
 - https://docs.docker.com/language/golang/run-tests/
 - https://firehydrant.io/blog/develop-a-go-app-with-docker-compose/
 - https://golang.cafe/blog/golang-httptest-example.html

@@ -12,7 +12,7 @@ type BackupFile struct {
 
 func ArticlesPersistence(path string, articles []Article) (err error) {
 	for _, a := range articles {
-        var sb strings.Builder
+		var sb strings.Builder
 		sb.WriteString(path)
 		sb.WriteString("/")
 		sb.WriteString(translateTitle2Filename(a.Title))
