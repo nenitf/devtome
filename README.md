@@ -30,6 +30,7 @@ docker-compose exec app go fmt ./...
 ### Desenvolvimento
 
 - https://developers.forem.com/api/
+- https://dev.to/albertodeago88/learn-golang-basics-by-creating-a-file-counter-50f1
 - https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/reading-files
 - https://medium.com/@flaqueEau/how-to-cleanly-test-files-in-go-af025bfcd9d3
 - https://docs.docker.com/language/golang/run-tests/
