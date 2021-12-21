@@ -17,7 +17,7 @@ func FilePersist(path string, articles []Article) (err error) {
 	for _, a := range articles {
 		sb.WriteString(path)
 		sb.WriteString("/")
-		sb.WriteString(TranslateTitle2Filename(a.Title))
+		sb.WriteString(translateTitle2Filename(a.Title))
 		sb.WriteString(".md")
 		log.Fatal(sb.String())
 		f, err := os.OpenFile(sb.String(), os.O_CREATE, 0644)
@@ -34,7 +34,7 @@ func FilePersist(path string, articles []Article) (err error) {
 	return
 }
 
-func TranslateTitle2Filename(origin string) string {
+func translateTitle2Filename(origin string) string {
 	s := strings.ToLower(origin)
 	var re = regexp.MustCompile(`\s`)
 	return re.ReplaceAllString(s, "_")
