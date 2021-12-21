@@ -12,6 +12,11 @@ type BackupFile struct {
 }
 
 func ArticlesPersistence(path string, articles []Article) (err error) {
+	err = os.MkdirAll(path, os.ModePerm)
+	if err != nil {
+		return err
+	}
+
 	for _, a := range articles {
 		filename := translateTitle2Filename(a.Title) + ".md"
 		f, err := os.Create(filepath.Join(path, filename))
