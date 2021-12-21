@@ -15,10 +15,15 @@ func ArticlesPersistence(path string, articles []Article) (err error) {
 	for _, a := range articles {
 		filename := translateTitle2Filename(a.Title) + ".md"
 		f, err := os.Create(filepath.Join(path, filename))
+		defer f.Close()
 		if err != nil {
 			return err
 		}
-		f.Close()
+
+		_, err = f.WriteString(a.Content)
+		if err != nil {
+			return err
+		}
 	}
 
 	return

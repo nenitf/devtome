@@ -41,7 +41,7 @@ func TestAcessoDaAPI(t *testing.T) {
 		art, err := c.GetAll()
 		arts, _ := json.Marshal(art)
 		is.NoErr(err)
-		is.Equal(string(`[{"id":1,"title":"Exemplo De Post","description":""}]`), string(arts))
+		is.Equal(string(`[{"id":1,"title":"Exemplo De Post","description":"","content":""}]`), string(arts))
 	})
 }
 
@@ -53,22 +53,26 @@ func TestPersistenciaDosArtigosEmArquivos(t *testing.T) {
 
 		p := []devtome.Article{
 			devtome.Article{
-				Id:    1,
-				Title: "Exemplo De Post",
+				Id:      1,
+				Title:   "Exemplo De Post",
+				Content: "Conteudo 1",
 			},
 			devtome.Article{
-				Id:    1,
-				Title: "Mais um Exemplo De Post",
+				Id:      1,
+				Title:   "Mais um Exemplo De Post",
+				Content: "Conteudo 2",
 			},
 		}
 
 		err := devtome.ArticlesPersistence(tmpdir, p)
 		is.NoErr(err)
 
-		_, err = os.Stat(filepath.Join(tmpdir, "exemplo_de_post.md"))
+		bs, err := os.ReadFile(filepath.Join(tmpdir, "exemplo_de_post.md"))
 		is.NoErr(err)
+		is.Equal(string(bs), p[0].Content)
 
-		_, err = os.Stat(filepath.Join(tmpdir, "mais_um_exemplo_de_post.md"))
+		bs, err = os.ReadFile(filepath.Join(tmpdir, "mais_um_exemplo_de_post.md"))
 		is.NoErr(err)
+		is.Equal(string(bs), p[1].Content)
 	})
 }
