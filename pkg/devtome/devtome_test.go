@@ -39,7 +39,7 @@ func TestAcessoDaAPI(t *testing.T) {
 
 		c := devtome.NewClient(svr.URL, "token-desnecessário")
 		art, err := c.GetAll()
-        arts, _ := json.Marshal(art)
+		arts, _ := json.Marshal(art)
 		is.NoErr(err)
 		is.Equal(string(`[{"id":1,"title":"Exemplo De Post","description":""}]`), string(arts))
 	})

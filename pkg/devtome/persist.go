@@ -2,9 +2,9 @@ package devtome
 
 import (
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
-	"path/filepath"
 )
 
 type BackupFile struct {
@@ -13,7 +13,7 @@ type BackupFile struct {
 
 func ArticlesPersistence(path string, articles []Article) (err error) {
 	for _, a := range articles {
-        filename := translateTitle2Filename(a.Title) + ".md"
+		filename := translateTitle2Filename(a.Title) + ".md"
 		f, err := os.Create(filepath.Join(path, filename))
 		if err != nil {
 			return err
