@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/pkg/errors"
 )
 
 type BackupFile struct {
@@ -14,7 +16,7 @@ type BackupFile struct {
 func ArticlesPersistence(path string, articles []Article) (err error) {
 	err = os.MkdirAll(path, os.ModePerm)
 	if err != nil {
-		return err
+		return errors.Wrap(err, "unable to create path")
 	}
 
 	for _, a := range articles {
@@ -22,12 +24,12 @@ func ArticlesPersistence(path string, articles []Article) (err error) {
 		f, err := os.Create(filepath.Join(path, filename))
 		defer f.Close()
 		if err != nil {
-			return err
+			return errors.Wrap(err, "unable to create file")
 		}
 
 		_, err = f.WriteString(a.Content)
 		if err != nil {
-			return err
+			return errors.Wrap(err, "unable to write file")
 		}
 	}
 

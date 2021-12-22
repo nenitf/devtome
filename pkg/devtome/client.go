@@ -25,11 +25,11 @@ func NewClient(url string, token string) Client {
 	return Client{url, token}
 }
 
-func (c Client) GetAll() ([]Article, error) {
+func (c Client) GetAll() (articles []Article, err error) {
 	client := http.Client{}
 	req, err := http.NewRequest("GET", c.url+"/api/articles/me/all", nil)
 	if err != nil {
-		return []Article{}, errors.Wrap(err, "unable to complete Get request")
+		return articles, errors.Wrap(err, "unable to complete Get request")
 	}
 
 	req.Header = http.Header{
@@ -38,28 +38,26 @@ func (c Client) GetAll() ([]Article, error) {
 
 	res, err := client.Do(req)
 	if err != nil {
-		return []Article{}, errors.Wrap(err, "unable to complete Get request")
+		return articles, errors.Wrap(err, "unable to complete Get request")
 	}
 
 	defer res.Body.Close()
 	out, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return []Article{}, errors.Wrap(err, "unable to read response data")
+		return articles, errors.Wrap(err, "unable to read response data")
 	}
 
 	var articlesDevTo []devto.Article
 	err = json.Unmarshal(out, &articlesDevTo)
 	if err != nil {
-		return []Article{}, errors.Wrap(err, "unable to read response data")
+		return articles, errors.Wrap(err, "unable to parse response body")
 	}
-
-	var articles []Article
 
 	for _, a := range articlesDevTo {
 		articles = append(articles, mapAPI2Article(a))
 	}
 
-	return articles, nil
+	return
 }
 
 func mapAPI2Article(a1 devto.Article) (a2 Article) {
