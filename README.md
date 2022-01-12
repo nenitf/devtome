@@ -32,9 +32,9 @@ docker-compose up -d
 
 ```sh
 docker-compose exec app go test ./...
-#docker-compose exec app go test ./pkg/devtome
-#docker-compose exec app go test ./pkg/devtome/file_test.go
-#docker-compose exec app go test ./pkg/devtome -run "regexOfTest$"
+#docker-compose exec app go test ./pkg/pkgname
+#docker-compose exec app go test ./pkg/pkgname/pkgname_test.go
+#docker-compose exec app go test ./pkg/pkgname -run "regexOfTest$"
 ```
 
 ### Linting
